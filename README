@@ -1,0 +1,63 @@
+                        _   _ _          
+  __ _  ___ _ __   __ _| | | | |__  _ __ 
+ / _` |/ _ \ '_ \ / _` | | | | '_ \| '__|
+| (_| |  __/ | | | (_| | |_| | | | | |   
+ \__, |\___|_| |_|\__,_|\___/|_| |_|_|   
+ |___/ 
+
+arduino GPS clock with a 7-segment and LCD display
+
+:licensing: {
+
+    DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+    Version 2, December 2004
+
+    Copyright (C) 2004 Kyle Cheung <kyle@kylezoa.com>
+
+    Everyone is permitted to copy and distribute verbatim or modified
+    copies of this license document, and changing it is allowed as long
+    as the name is changed.
+
+    DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE
+    TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+
+    0. You just DO WHAT THE FUCK YOU WANT TO.
+
+}
+
+:purpose: {
+
+    -basic
+        * an Arduino-based clock synchronized with GPS clocks and 
+        provides an extensive customization base
+        * all other atomic clocks are lame and I need to build one
+        myself
+        * who doesn't want another clock solely displaying UTC time
+        with 7-segment digits?
+
+    -advanced
+        * platform to extend the GPS aspect beyond a simple clock
+        * geotagging photos, geocaching, a LOT of uses for this
+        "clock" platform
+
+}
+
+:parts: {
+
+    (prices as of 2011-4-17)
+
+    -some metal enclosure
+
+    -Arduino Uno [$29.95]
+        http://www.sparkfun.com/products/9950
+
+    -7-segment serial display [$12.95]
+        http://www.sparkfun.com/products/9765
+
+    -Serial enabled 16x2 LCD [$24.95]
+        http://www.sparkfun.com/products/9395
+
+    -LS20031 GPS receiver [$59.95]
+        http://www.sparkfun.com/products/8975
+
+}
