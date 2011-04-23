@@ -74,7 +74,7 @@ arduino GPS clock with a 7-segment and LCD display
         *Serial enabled 16x2 LCD
             VDD -> 5V
             GND -> GND
-            RX -> Pin 7
+            RX -> Pin 1 
 
         *GPS
             Pin 1 -> 3V
