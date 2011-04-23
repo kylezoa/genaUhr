@@ -61,3 +61,34 @@ arduino GPS clock with a 7-segment and LCD display
         http://www.sparkfun.com/products/8975
 
 }
+
+:build notes: {
+    
+    -pin connections (unit -> arduino uno)
+
+        *7-segment serial display
+            VCC -> 5V
+            GND -> GND
+            RX -> Pin 4
+
+        *Serial enabled 16x2 LCD
+            VDD -> 5V
+            GND -> GND
+            RX -> Pin 7
+
+        *GPS
+            Pin 1 -> 3V
+            Pin 3 -> Pin 0
+            Pin 5 -> GND
+
+        //5V will have to be split off from the pin
+        //If current exceeds USB current limit, a DC power
+        //supply will supplement
+
+}
+
+:programming notes: {
+
+    -the use of the TinyGPS library is TBD
+
+}
