@@ -62,10 +62,7 @@ void loop() {
       int year;
       byte month, day, hour, minute, second;
 
-      gps.get_datetime(&date, &time);
-
-      //gps.crack_datetime(&hour, &minute, &year, &month, &day, &second); //separating hhmm from ss in order to easily print to LED
-
+      //gps.get_datetime(&date, &time); //probably not necessary
       gps.crack_datetime(&year, &month, &day, &hour, &minute, &second);
 
       //print time to LED
