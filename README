@@ -89,6 +89,11 @@ arduino GPS clock with a 7-segment and LCD display
 
 :programming notes: {
 
+    -dependencies
+    
+        *NewSoftSerial
+        *TinyGPS
+
     -ALL CODE UNTESTED, DO NOT USE
 
 }
