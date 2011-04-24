@@ -65,6 +65,12 @@ class TinyGPS
     
     // speed in last full GPRMC sentence in 100ths of a knot
     unsigned long speed() { return _speed; }
+	
+	// return horizontal accuracy
+	inline unsigned long hor_acc() { return _hor_acc; }
+	
+	//return number of satellites in view
+	inline unsigned long satellites() { return _sat_in_view / 100; }
 
 #ifndef _GPS_NO_STATS
     void stats(unsigned long *chars, unsigned short *good_sentences, unsigned short *failed_cs);
@@ -102,7 +108,7 @@ class TinyGPS
     inline float f_speed_mph()   { return _GPS_MPH_PER_KNOT * f_speed_knots(); }
     inline float f_speed_mps()   { return _GPS_MPS_PER_KNOT * f_speed_knots(); }
     inline float f_speed_kmph()  { return _GPS_KMPH_PER_KNOT * f_speed_knots(); }
-
+    inline float f_hor_acc()     { return hor_acc() / 100.0; }
     static int library_version() { return _GPS_VERSION; }
 
     enum {GPS_INVALID_AGE = 0xFFFFFFFF, GPS_INVALID_ANGLE = 999999999, GPS_INVALID_ALTITUDE = 999999999, GPS_INVALID_DATE = 0,
@@ -122,6 +128,8 @@ private:
     long _altitude, _new_altitude;
     unsigned long  _speed, _new_speed;
     unsigned long  _course, _new_course;
+	unsigned long  _sat_in_view, _new_sat_in_view;
+	unsigned long  _hor_acc, _new_hor_acc;
 
     unsigned long _last_time_fix, _new_time_fix;
     unsigned long _last_position_fix, _new_position_fix;

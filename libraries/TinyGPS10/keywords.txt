@@ -16,6 +16,8 @@ encode	KEYWORD2
 get_position	KEYWORD2
 get_datetime	KEYWORD2
 altitude	KEYWORD2
+satellites	KEYWORD2
+hor_acc		KEYWORD2
 speed	KEYWORD2
 course	KEYWORD2
 stats	KEYWORD2
@@ -27,6 +29,8 @@ f_speed_knots	KEYWORD2
 f_speed_mph	KEYWORD2
 f_speed_mps	KEYWORD2
 f_speed_kmph	KEYWORD2
+f_hor_acc	KEYWORD2
+
 library_version	KEYWORD2
 distance_between	KEYWORD2
 

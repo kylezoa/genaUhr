@@ -153,10 +153,12 @@ unsigned long TinyGPS::parse_degrees()
   return (left / 100) * 100000 + tenk_minutes / 6;
 }
 
-// Processes a just-completed term
+
+// called after every term by gps::encode
 // Returns true if new sentence has just passed checksum test and is validated
 bool TinyGPS::term_complete()
 {
+  //then we can assume we are at the end of a sentence
   if (_is_checksum_term)
   {
     byte checksum = 16 * from_hex(_term[0]) + from_hex(_term[1]);
@@ -185,6 +187,8 @@ bool TinyGPS::term_complete()
           _time      = _new_time;
           _latitude  = _new_latitude;
           _longitude = _new_longitude;
+		  _sat_in_view = _new_sat_in_view;
+		  _hor_acc   = _new_hor_acc;
           break;
         }
 
@@ -199,7 +203,7 @@ bool TinyGPS::term_complete()
     return false;
   }
 
-  // the first term determines the sentence type
+  // this the first term it determines the sentence type
   if (_term_number == 0)
   {
     if (!gpsstrcmp(_term, _GPRMC_TERM))
@@ -210,7 +214,8 @@ bool TinyGPS::term_complete()
       _sentence_type = _GPS_SENTENCE_OTHER;
     return false;
   }
-
+  //action time!
+  //this switch takes the _term and converts it into a useful type (date into date, longditude into 1/1000th degrees)
   if (_sentence_type != _GPS_SENTENCE_OTHER && _term[0])
   switch((_sentence_type == _GPS_SENTENCE_GPGGA ? 200 : 100) + _term_number)
   {
@@ -241,17 +246,23 @@ bool TinyGPS::term_complete()
       if (_term[0] == 'W')
         _new_longitude = -_new_longitude;
       break;
+	case 206: // Fix data (GPGGA)
+	    _gps_data_good = _term[0] > '0';
+	  break;	  
+	case 207: //Satalites in view (GPGGA)
+	  _new_sat_in_view = parse_decimal();
+	  break;
     case 107: // Speed (GPRMC)
       _new_speed = parse_decimal();
       break;
     case 108: // Course (GPRMC)
       _new_course = parse_decimal();
       break;
+	case 208: //Horizontal accuracy (GPGGA)
+	  _new_hor_acc = parse_decimal();
+	  break;
     case 109: // Date (GPRMC)
       _new_date = gpsatol(_term);
-      break;
-    case 206: // Fix data (GPGGA)
-      _gps_data_good = _term[0] > '0';
       break;
     case 209: // Altitude (GPGGA)
       _new_altitude = parse_decimal();
