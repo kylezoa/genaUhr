@@ -45,7 +45,7 @@ void setup() {
   
   //reset LED display on initial startup
   Serial.print("v");
-  
+ 
 }
 
 //start the long ass loop
@@ -58,7 +58,7 @@ void loop() {
     { //start the real magic
       
       //grab time and date information      
-      unsigned long date, time, chars;
+      unsigned long date, time;
       int year;
       byte month, day, hour, minute, second;
 
@@ -66,7 +66,7 @@ void loop() {
       gps.crack_datetime(&year, &month, &day, &hour, &minute, &second);
 
       //print time to LED
-      Serial.print(time);
+      Serial.print(int(hour)); Serial.print(0x77, BYTE); Serial.print(0x10, BYTE); Serial.print(int(minute));
     } //end magic
   } //end while
 } //end loop
