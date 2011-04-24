@@ -28,9 +28,9 @@ TinyGPS gps;
 //7-segment LED display (serial TTL)
 #define segDisplay 1
 //16x2 LCD
-#define lcdDisplay 7
+#define lcdDisplay 4
 
-//setup software serial ports
+//setup software serial port. 255 is a dummy port. only transmitting on 4
 NewSoftSerial slcdDisplay(255,4);
 
 void setup() {
