@@ -31,7 +31,7 @@ TinyGPS gps;
 #define lcdDisplay 7
 
 //setup software serial ports
-NewSoftwareSerial serial_lcdDisplay = SoftwareSerial(,4);
+NewSoftSerial serial_lcdDisplay(255,4);
 
 void setup() {
   
@@ -43,10 +43,10 @@ void setup() {
   Serial.begin(9600); //start hardware serial for GPS
   serial_lcdDisplay.begin(9600); //start serial for lcdDisplay
   
+  //reset LED display on initial startup
+  Serial.print("v");
+  
 }
-
-//reset LED display on initial startup
-Serial.print("v");
 
 //start the long ass loop
 void loop() {
@@ -57,11 +57,17 @@ void loop() {
     if (gps.encode(c))
     { //start the real magic
       
-      //grab time and date information
-      int time = gps.crack_datetime(&hour, &minute); //separating hhmm from ss in order to easily print to LED
-      int seconds = gps.crack_date(&second); //second display will goto LCD
-      int date = gps.crack_datetime(&year, &month, &day);
-      
+      //grab time and date information      
+      unsigned long date, time, chars;
+      int year;
+      byte month, day, hour, minute, second;
+
+      gps.get_datetime(&date, &time);
+
+      //gps.crack_datetime(&hour, &minute, &year, &month, &day, &second); //separating hhmm from ss in order to easily print to LED
+
+      gps.crack_datetime(&year, &month, &day, &hour, &minute, &second);
+
       //print time to LED
       Serial.print(time);
     } //end magic
