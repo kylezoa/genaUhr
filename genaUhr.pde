@@ -45,6 +45,12 @@ void setup() {
   
   //reset LED display on initial startup
   Serial.print("v");
+  
+  //line 2 of the LCD. notes regarding this below
+  slcdDisplay.print(0xfe, BYTE); slcdDisplay.print(0xc0, BYTE);
+  slcdDisplay.print("UTC/GPS");
+  slcdDisplay.print(0xfe, BYTE); slcdDisplay.print(0xc8, BYTE);
+  slcdDisplay.print("genaUhr b1");
  
 }
 
@@ -75,6 +81,8 @@ void loop() {
       <64-70, UTC/GPS (print out)> <73~, genaUhr b1>
       
       send special character 254 then cursor position + 128
+      
+      LINE 2 is at void setup() in order to save resources as the second line is completely static
       */
       
       //line 1
@@ -87,12 +95,6 @@ void loop() {
       slcdDisplay.print(int(month));
       slcdDisplay.print("-");
       slcdDisplay.print(int(day));
-      
-      //line 2
-      slcdDisplay.print(0xfe, BYTE); slcdDisplay.print(0xc0, BYTE);
-      slcdDisplay.print("UTC/GPS");
-      slcdDisplay.print(0xfe, BYTE); slcdDisplay.print(0xc8, BYTE);
-      slcdDisplay.print("genaUhr b1");
       
     } //end magic
   } //end while
