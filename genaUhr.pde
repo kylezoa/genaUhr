@@ -1,6 +1,8 @@
 /*
 
 genaUhr.pde -- main Arduino sketch
+THIS CODE IS UNTESTED AND WRITTEN FROM 'THEORY'
+DO NOT USE
                         _   _ _          
   __ _  ___ _ __   __ _| | | | |__  _ __ 
  / _` |/ _ \ '_ \ / _` | | | | '_ \| '__|
@@ -16,10 +18,9 @@ license, copyright and more information can be found in the README
 //NewSoftwareSerial library used for LCD display
 #include "lib/NewSoftwareSerial.h"
 
-//might use TinyGPS, still up for grabs
-/*#include "tinygps/TinyGPS.h"
+//TinyGPS to make data manipulation and later expansion easier
+#include "tinygps/TinyGPS.h"
 TinyGPS gps;
-*/
 
 //declaring le *digital* pins to the units
 //GPS module (serial TTL)
@@ -43,3 +44,26 @@ void setup() {
   serial_lcdDisplay.begin(9600); //start serial for lcdDisplay
   
 }
+
+//reset LED display on initial startup
+Serial.print("v");
+
+//start the long ass loop
+void loop() {
+  //init tinygps magic
+  while (Serial.available())
+  {
+    int c = Serial.read();
+    if (gps.encode(c))
+    { //start the real magic
+      
+      //grab time and date information
+      int time = gps.crack_datetime(&hour, &minute); //separating hhmm from ss in order to easily print to LED
+      int seconds = gps.crack_date(&second); //second display will goto LCD
+      int date = gps.crack_datetime(&year, &month, &day);
+      
+      //print time to LED
+      Serial.print(time);
+    } //end magic
+  } //end while
+} //end loop
