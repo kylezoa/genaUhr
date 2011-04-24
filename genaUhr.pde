@@ -16,19 +16,19 @@ license, copyright and more information can be found in the README
 */
 
 //NewSoftwareSerial library used for LCD display
-#include "lib/NewSoftwareSerial.h"
+#include <NewSoftSerial.h>
 
 //TinyGPS to make data manipulation and later expansion easier
-#include "tinygps/TinyGPS.h"
+#include <TinyGPS.h>
 TinyGPS gps;
 
 //declaring le *digital* pins to the units
 //GPS module (serial TTL)
-int gpsRx = 0
+#define gpsRx 0
 //7-segment LED display (serial TTL)
-int segDisplay = 1
+#define segDisplay 1
 //16x2 LCD
-int lcdDisplay = 7
+#define lcdDisplay 7
 
 //setup software serial ports
 NewSoftwareSerial serial_lcdDisplay = SoftwareSerial(,4);
