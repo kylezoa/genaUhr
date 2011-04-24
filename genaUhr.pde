@@ -31,7 +31,7 @@ TinyGPS gps;
 #define lcdDisplay 7
 
 //setup software serial ports
-NewSoftSerial serial_lcdDisplay(255,4);
+NewSoftSerial slcdDisplay(255,4);
 
 void setup() {
   
@@ -41,7 +41,7 @@ void setup() {
   pinMode(lcdDisplay, OUTPUT);
   
   Serial.begin(9600); //start hardware serial for GPS
-  serial_lcdDisplay.begin(9600); //start serial for lcdDisplay
+  slcdDisplay.begin(9600); //start serial for lcdDisplay
   
   //reset LED display on initial startup
   Serial.print("v");
@@ -59,14 +59,41 @@ void loop() {
       
       //grab time and date information      
       unsigned long date, time;
+      unsigned short sentences, failed_checksum;
       int year;
       byte month, day, hour, minute, second;
 
       //gps.get_datetime(&date, &time); //probably not necessary
       gps.crack_datetime(&year, &month, &day, &hour, &minute, &second);
 
-      //print time to LED
+      //print time to LED (hh:mm)
       Serial.print(int(hour)); Serial.print(0x77, BYTE); Serial.print(0x10, BYTE); Serial.print(int(minute));
+      
+      /*LED display <cursor position, display>
+      
+      <0-1, second, ss> <4-5, satellites in view> <9-19, date, YYYY-MM-DD>
+      <64-70, UTC/GPS (print out)> <73~, genaUhr b1>
+      
+      send special character 254 then cursor position + 128
+      */
+      
+      //line 1
+      slcdDisplay.print(int(second));
+      slcdDisplay.print(0xfe, BYTE); slcdDisplay.print(0x84, BYTE);
+      slcdDisplay.print(gps.satellites());
+      slcdDisplay.print(0xfe, BYTE); slcdDisplay.print(0x89, BYTE);
+      slcdDisplay.print(year);
+      slcdDisplay.print("-");
+      slcdDisplay.print(int(month));
+      slcdDisplay.print("-");
+      slcdDisplay.print(int(day));
+      
+      //line 2
+      slcdDisplay.print(0xfe, BYTE); slcdDisplay.print(0xc0, BYTE);
+      slcdDisplay.print("UTC/GPS");
+      slcdDisplay.print(0xfe, BYTE); slcdDisplay.print(0xc8, BYTE);
+      slcdDisplay.print("genaUhr b1");
+      
     } //end magic
   } //end while
 } //end loop
